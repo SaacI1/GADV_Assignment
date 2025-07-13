@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D myBody;
+    private Rigidbody2D rb2D;
 
+    private const int V = 0;
     [SerializeField]
-    int speed;
+    public float jumpSpeed = 20f;
+    [SerializeField]
+    int speed = V;
 
     void Start()
     {
-        myBody = GetComponent<Rigidbody2D>();
+        rb2D = GetComponent<Rigidbody2D>();
+        if(rb2D == null)
+        {
+            Debug.LogError("Rigidbody component missing from this GameObject!");
+        }
 
     }
 
 
     void Update()
     {
+
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime);
@@ -28,7 +36,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float currentXPos = transform.position.x;
-        currentXPos = Mathf.Clamp(currentXPos, -2.3f, 2.3f);
-        transform.position = new Vector3(currentXPos, transform.position.y, transform.position.z);
+        float currentYPos = transform.position.y;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && Mathf.Approximately(currentYPos, -5.5f))
+        {
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpSpeed);
+        }
+
+
+        currentXPos = Mathf.Clamp(currentXPos, -16.0f, 16.0f);
+        currentYPos = Mathf.Clamp(currentYPos, -5.5f, 11.13f);
+
+        transform.position = new Vector3(currentXPos, currentYPos, transform.position.z);
     }
 }
