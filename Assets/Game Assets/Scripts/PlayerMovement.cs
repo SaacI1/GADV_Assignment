@@ -6,11 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb2D;
 
-    private const int V = 0;
     [SerializeField]
-    public float jumpSpeed = 20f;
+    public float jumpHeight = 27f;
     [SerializeField]
-    int speed = V;
+    public int speed = 0;
 
     void Start()
     {
@@ -40,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && Mathf.Approximately(currentYPos, -5.5f))
         {
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpSpeed);
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpHeight);
         }
 
 
